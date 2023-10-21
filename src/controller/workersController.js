@@ -99,21 +99,12 @@ const userController = {
           password: hash,
         };
         // console.log(user);
-
-        try {
-          const workerData = await createWorkers(user);
-          // console.log("User data:", workerData);
-          res.status(200).json({
-            message: "workers has been created successfully",
-            data: workerData,
-          });
-        } catch (err) {
-          console.error("Error creating user:", err);
-          res.status(400).json({
-            message: "Error creating worker",
-            err: err.message,
-          });
-        }
+        const workerData = await createWorkers(user);
+        // console.log("User data:", workerData);
+        res.status(200).json({
+          message: "workers has been created successfully",
+          data: workerData,
+        });
       });
     } catch (err) {
       res.status(400).json({
