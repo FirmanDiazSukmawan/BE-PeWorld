@@ -1,25 +1,25 @@
 const {
-  getAllWorkers,
-  countWorkers,
+  getAllRecruiter,
+  countRecruiter,
   getById,
-  createWorkers,
-  updateWorkers,
-  loginWorkers,
-  deleteWorkers,
+  createRecruiter,
+  updateRecruiter,
+  loginRecruiter,
+  deleteRecruiter,
   findUserEmail,
-} = require("../model/workersModel");
+} = require("../model/recruiterModel");
 const { generateToken, refreshToken } = require("../helper/jwt");
 const bcrypt = require("bcrypt");
 const cloudinary = require("../config/cloudinaryConfig");
 
 const userController = {
-  getWorkers: async (req, res) => {
+  getRecruiter: async (req, res) => {
     let { searchBy, search, sortBy, sort, limit, offset, page } = req.query;
     let data = {
       page: page || 1,
       searchBy: searchBy || "nama",
       search: search || "",
-      sortBy: sortBy || "workers_id",
+      sortBy: sortBy || "recruiter_id",
       sort: sort || "ASC",
       limit: limit || 10,
       offset: (page - 1) * limit || 0,
@@ -28,7 +28,7 @@ const userController = {
     try {
       const {
         rows: [count],
-      } = await countWorkers();
+      } = await countRecruiter();
       const totalData = parseInt(count.count);
 
       const totalPage = Math.ceil(totalData / limit);
@@ -39,24 +39,24 @@ const userController = {
         totalData: totalData,
         totalPage: totalPage,
       };
-      let results = await getAllWorkers(data);
+      let results = await getAllRecruiter(data);
       res.status(200).json({
-        message: "workers get all by query",
+        message: "recruiters get all by query",
         pagination: pagination,
         data: results.rows,
       });
     } catch (err) {
       res.status(400).json({
         error: err.message,
-        message: "workers not found",
+        message: "recruiters not found",
       });
     }
   },
 
-  getWorkerById: async (req, res) => {
+  getRecruiterById: async (req, res) => {
     try {
-      const workers_id = req.params.workers_id;
-      const result = await getById(workers_id);
+      const recruiter_id = req.params.recruiter_id;
+      const result = await getById(recruiter_id);
       res.json({
         data: result.rows[0],
         message: "get data successfully",
@@ -64,14 +64,22 @@ const userController = {
     } catch (err) {
       res.json({
         error: err.message,
-        message: "error getting worker",
+        message: "error getting recruiter",
       });
     }
   },
 
-  createWorker: async (req, res) => {
+  createRecruiters: async (req, res) => {
     try {
-      const { nama, email, phone, password, confirmPassword } = req.body;
+      const {
+        nama,
+        email,
+        perusahaan,
+        jabatan,
+        phone,
+        password,
+        confirmPassword,
+      } = req.body;
 
       let { rowCount } = await findUserEmail(email);
       if (rowCount) {
@@ -83,34 +91,37 @@ const userController = {
         return res
           .status(401)
           .json({ message: "passsword and confirm password do not match" });
+
       const passwordHash = bcrypt.hashSync(password, 10);
 
       const user = {
         nama,
         email,
+        perusahaan,
+        jabatan,
         phone,
         password: passwordHash,
       };
-      // console.log(user);
-      const workerData = await createWorkers(user);
-      // console.log("User data:", workerData);
+      //   console.log(user);
+      const recruiterData = await createRecruiter(user);
+      // console.log("User data:", recruiterData);
       res.status(200).json({
-        message: "workers has been created successfully",
-        data: workerData,
+        message: "recruiters has been created successfully",
+        data: recruiterData,
       });
     } catch (err) {
       res.status(400).json({
-        message: "Error creating Worker",
+        message: "Error creating recruiter",
         err: err.message,
       });
     }
   },
 
-  loginWorker: async (req, res) => {
+  loginRecruiters: async (req, res) => {
     const { email, password } = req.body;
 
     try {
-      const result = await loginWorkers(email);
+      const result = await loginRecruiter(email);
       //   console.log(result.rows);
 
       if (result.rowCount > 0) {
@@ -143,36 +154,34 @@ const userController = {
     }
   },
 
-  updateWorker: async (req, res) => {
+  updateRecruiters: async (req, res) => {
     try {
-      const workers_id = req.params.workers_id;
-      // console.log(req);
-      const workersImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "users",
+      const recruiter_id = req.params.recruiter_id;
+      //   console.log(req.file);
+      const recruiterImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "recruiter",
       });
 
-      if (!workersImage) {
+      if (!recruiterImage) {
         return res.status(401).json({
           message: "u need upload image",
         });
       }
-      const result = await getById(Number(workers_id));
-      const worker = result.rows[0];
+      const result = await getById(Number(recruiter_id));
+      const recruiterData = result.rows[0];
       const data = {
-        nama: req.body.nama || worker.nama,
-        email: req.body.email || worker.email,
-        phone: req.body.phone || worker.phone,
-        image: workersImage.secure_url,
-        profesi: req.body.profesi || worker.profesi,
-        location: req.body.location || worker.location,
-        description: req.body.description || worker.description,
-        company: req.body.company || worker.company,
-        instagram: req.body.instagram || worker.instagram,
-        github: req.body.github || worker.github,
-        gitlab: req.body.gitlab || worker.gitlab,
+        nama: req.body.nama || recruiterData.nama,
+        email: req.body.email || recruiterData.email,
+        phone: req.body.phone || recruiterData.phone,
+        image: recruiterImage.secure_url,
+        location: req.body.location || recruiterData.location,
+        description: req.body.description || recruiterData.description,
+        company: req.body.company || recruiterData.company,
+        instagram: req.body.instagram || recruiterData.instagram,
+        linkedin: req.body.linkedin || recruiterData.linkedin,
       };
 
-      await updateWorkers(data, Number(workers_id));
+      await updateRecruiter(data, Number(recruiter_id));
 
       res.status(200).json({
         message: "Update Successfull",
@@ -185,10 +194,10 @@ const userController = {
     }
   },
 
-  deleteWorker: async (req, res) => {
+  deleteRecruiters: async (req, res) => {
     try {
-      const workers_id = req.params.workers_id;
-      const result = await deleteWorkers(workers_id);
+      const recruiter_id = req.params.recruiter_id;
+      const result = await deleteRecruiter(recruiter_id);
       const data = await cloudinary.uploader.destroy(result);
       res.json({
         message: "delete data sucessfully",
