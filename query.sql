@@ -54,6 +54,12 @@ CREATE TABLE experience (
   workers_id INT
 );
 
+CREATE TABLE skills (
+  skills_id SERIAL PRIMARY KEY,
+  skill VARCHAR(255) NOT NULL,
+  workers_id INT
+);
+
 DROP TABLE recruiters
 
 DROP TABLE portofolio
