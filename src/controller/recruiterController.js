@@ -158,15 +158,16 @@ const userController = {
     try {
       const recruiter_id = req.params.recruiter_id;
       //   console.log(req.file);
-      const recruiterImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "recruiter",
-      });
 
-      if (!recruiterImage) {
+      if (!req.file || !req.file.path) {
         return res.status(401).json({
-          message: "u need upload image",
+          message: "You need to upload an image",
         });
       }
+      const recruiterImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "recruiter",
+      }); 
+
       const result = await getById(Number(recruiter_id));
       const recruiterData = result.rows[0];
       const data = {

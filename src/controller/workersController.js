@@ -146,16 +146,15 @@ const userController = {
   updateWorker: async (req, res) => {
     try {
       const workers_id = req.params.workers_id;
-      // console.log(req);
+      if (!req.file || !req.file.path) {
+        return res.status(401).json({
+          message: "You need to upload an image",
+        });
+      }
       const workersImage = await cloudinary.uploader.upload(req.file.path, {
         folder: "users",
       });
 
-      if (!workersImage) {
-        return res.status(401).json({
-          message: "u need upload image",
-        });
-      }
       const result = await getById(Number(workers_id));
       const worker = result.rows[0];
       const data = {

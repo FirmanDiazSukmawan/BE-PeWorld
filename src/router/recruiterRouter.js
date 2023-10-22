@@ -8,7 +8,11 @@ const {
   updateRecruiters,
   deleteRecruiters,
 } = require("../controller/recruiterController");
-const { isAdmin, isUser, LoginAuth } = require("../middleware/verifyRole");
+const {
+  isRecruiter,
+  isWorkers,
+  LoginAuth,
+} = require("../middleware/verifyRole");
 const upload = require("../middleware/multer");
 
 router.get("/", LoginAuth, getRecruiter);

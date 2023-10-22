@@ -34,4 +34,15 @@ CREATE TABLE recruiter (
   role INT
 );
 
+CREATE TABLE portofolio (
+  portofolio_id SERIAL PRIMARY KEY,
+  namaAplikasi VARCHAR(255) NOT NULL,
+  linkRepo TEXT NOT NULL,
+  typePortofolio VARCHAR(255) NOT NULL,
+  image TEXT NOT NULL,
+  workers_id INT
+);
+
 DROP TABLE recruiters
+
+DROP TABLE portofolio

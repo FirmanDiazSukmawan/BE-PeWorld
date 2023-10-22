@@ -20,26 +20,26 @@ const LoginAuth = async (req, res, next) => {
   }
 };
 
-const isAdmin = (req, res, next) => {
+const isRecruiter = (req, res, next) => {
   if (req?.payload?.users?.role === 0) {
     next();
   } else
     res.json({
-      message: "Halaman hanya bisa di akses oleh admin",
+      message: "Halaman hanya bisa di akses oleh Recruiters",
     });
 };
 
-const isUsers = (req, res, next) => {
+const isWorkers = (req, res, next) => {
   if (req?.payload?.users?.role === 1) {
     next();
   } else
     res.json({
-      message: "Halaman hanya bisa di akses oleh admin",
+      message: "Halaman hanya bisa di akses oleh Workers",
     });
 };
 
 module.exports = {
   LoginAuth,
-  isAdmin,
-  isUsers,
+  isRecruiter,
+  isWorkers,
 };
