@@ -135,9 +135,10 @@ const userController = {
       const result = await getPortofolioId(Number(portofolio_id));
       const portofolioData = result.rows[0];
       const data = {
-        namaAplikasi: req.body.namaAplikasi || portofolioData.nama,
-        linkRepo: req.body.linkRepo || portofolioData.email,
-        typePortofolio: req.body.typePortofolio || portofolioData.phone,
+        namaAplikasi: req.body.namaAplikasi || portofolioData.namaAplikasi,
+        linkRepo: req.body.linkRepo || portofolioData.linkRepo,
+        typePortofolio:
+          req.body.typePortofolio || portofolioData.typePortofolio,
         image: portofolioImage.secure_url,
       };
 

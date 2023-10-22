@@ -43,6 +43,19 @@ CREATE TABLE portofolio (
   workers_id INT
 );
 
+CREATE TABLE experience (
+  experience_id SERIAL PRIMARY KEY,
+  profesi VARCHAR(255) NOT NULL,
+  company VARCHAR(255) NOT NULL,
+  dateIn DATE NOT NULL,
+  dateOut DATE NOT NULL,
+  description TEXT NOT NULL,
+  image TEXT NOT NULL,
+  workers_id INT
+);
+
 DROP TABLE recruiters
 
 DROP TABLE portofolio
+
+DROP TABLE experience
