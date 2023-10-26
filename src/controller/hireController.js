@@ -27,9 +27,9 @@ const userController = {
       const {
         rows: [count],
       } = await countHire();
-      const totalData = parseInt(count.count);
+      const totalData = parseInt(count.total);
 
-      const totalPage = Math.ceil(totalData / limit);
+      const totalPage = Math.ceil(totalData / data.limit);
       // console.log(limit);
       const pagination = {
         currentPage: data.page,
@@ -56,7 +56,7 @@ const userController = {
       const hire_id = req.params.hire_id;
       const result = await getHireId(hire_id);
       res.json({
-        data: result.rows[0],
+        data: result.rows,
         message: "get data successfully",
       });
     } catch (err) {

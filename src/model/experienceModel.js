@@ -26,11 +26,10 @@ const getExperienceWorkersId = (workers_id) => {
 };
 
 const createExperience = (data) => {
-  const { profesi, company, dateIn, dateOut, description, image, workers_id } =
-    data;
+  const { profesi, company, dateIn, dateOut, description, workers_id } = data;
   return new Promise((resolve, reject) =>
     db.query(
-      `INSERT INTO experience(profesi, company,dateIn,dateOut,description,image,workers_id) VALUES('${profesi}','${company}','${dateIn}','${dateOut}','${description}','${image}',${workers_id})`,
+      `INSERT INTO experience(profesi, company,dateIn,dateOut,description,workers_id) VALUES('${profesi}','${company}','${dateIn}','${dateOut}','${description}',${workers_id})`,
       (err, res) => {
         if (!err) {
           resolve(res);

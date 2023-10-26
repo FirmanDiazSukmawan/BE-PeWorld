@@ -26,9 +26,9 @@ const userController = {
       const {
         rows: [count],
       } = await countExperience();
-      const totalData = parseInt(count.count);
+      const totalData = parseInt(count.total);
 
-      const totalPage = Math.ceil(totalData / limit);
+      const totalPage = Math.ceil(totalData / data.limit);
       // console.log(limit);
       const pagination = {
         currentPage: data.page,
@@ -55,7 +55,7 @@ const userController = {
       const experience_id = req.params.experience_id;
       const result = await getExperienceId(experience_id);
       res.json({
-        data: result.rows[0],
+        data: result.rows,
         message: "get data successfully",
       });
     } catch (err) {
@@ -88,23 +88,12 @@ const userController = {
       const { profesi, company, dateIn, dateOut, description, workers_id } =
         req.body;
 
-      if (!req.file || !req.file.path) {
-        return res.status(401).json({
-          message: "You need to upload an image",
-        });
-      }
-
-      const experienceImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "experience",
-      });
-
       const experience = {
         profesi,
         company,
         dateIn,
         dateOut,
         description,
-        image: experienceImage.secure_url,
         workers_id,
       };
       //   console.log(experience);
@@ -126,24 +115,23 @@ const userController = {
     try {
       const experience_id = req.params.experience_id;
       //   console.log(req.file);
-      const experienceImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Experience",
-      });
 
-      if (!experienceImage) {
-        return res.status(401).json({
-          message: "u need upload image",
-        });
-      }
       const result = await getExperienceId(Number(experience_id));
       const experienceData = result.rows[0];
+      let experienceImage = experienceData.image;
+      if (req.file) {
+        const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+          folder: "portofolio",
+        });
+        experienceImage = uploadedImage.secure_url;
+      }
       const data = {
         profesi: req.body.profesi || experienceData.profesi,
         company: req.body.company || experienceData.company,
         dateIn: req.body.dateIn || experienceData.dateIn,
         dateOut: req.body.dateOut || experienceData.dateOut,
         description: req.body.description || experienceData.description,
-        image: experienceImage.secure_url,
+        image: experienceImage,
       };
 
       await updateExperience(data, Number(experience_id));

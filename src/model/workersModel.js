@@ -3,9 +3,9 @@ const db = require("../config/db");
 const getAllWorkers = (data) => {
   let { searchBy, search, sortBy, sort, limit, offset } = data;
   return db.query(`SELECT 
- *
-FROM 
-  workers
+ workers.*
+ FROM 
+     workers
  WHERE workers.${searchBy} ILIKE '%${search}%' ORDER BY workers.${sortBy} ${sort} LIMIT ${limit} OFFSET ${offset}`);
 };
 
@@ -15,7 +15,12 @@ const countWorkers = () => {
 
 const getById = (workers_id) => {
   return db.query(
-    `SELECT * FROM workers WHERE workers.workers_id=${workers_id}`
+    `SELECT 
+    workers.*
+
+   FROM 
+     workers
+      WHERE workers.workers_id=${workers_id}`
   );
 };
 
@@ -63,8 +68,7 @@ const loginWorkers = (email) => {
 const updateWorkers = (data, workers_id) => {
   const {
     nama,
-    email,
-    phone,
+
     image,
     profesi,
     location,
@@ -75,7 +79,13 @@ const updateWorkers = (data, workers_id) => {
     gitlab,
   } = data;
   return db.query(
-    `UPDATE workers SET nama='${nama}',email='${email}',phone='${phone}',image='${image}',profesi='${profesi}',location='${location}',description='${description}',company='${company}',instagram='${instagram}',github='${github}',gitlab='${gitlab}' WHERE workers.workers_id = ${workers_id}`
+    `UPDATE workers SET nama='${nama}',image='${image}',profesi='${profesi}',location='${location}',description='${description}',company='${company}',instagram='${instagram}',github='${github}',gitlab='${gitlab}' WHERE workers.workers_id = ${workers_id}`
+  );
+};
+
+const updateSkillWorkers = (skills, workers_id) => {
+  return db.query(
+    `UPDATE workers SET skills='${skills}'WHERE workers.workers_id = ${workers_id}`
   );
 };
 
@@ -89,6 +99,7 @@ module.exports = {
   getById,
   createWorkers,
   updateWorkers,
+  updateSkillWorkers,
   loginWorkers,
   deleteWorkers,
   findUserEmail,

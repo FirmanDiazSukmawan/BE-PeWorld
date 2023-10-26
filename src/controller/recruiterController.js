@@ -29,9 +29,9 @@ const userController = {
       const {
         rows: [count],
       } = await countRecruiter();
-      const totalData = parseInt(count.count);
+      const totalData = parseInt(count.total);
 
-      const totalPage = Math.ceil(totalData / limit);
+      const totalPage = Math.ceil(totalData / data.limit);
       // console.log(limit);
       const pagination = {
         currentPage: data.page,
@@ -58,7 +58,7 @@ const userController = {
       const recruiter_id = req.params.recruiter_id;
       const result = await getById(recruiter_id);
       res.json({
-        data: result.rows[0],
+        data: result.rows,
         message: "get data successfully",
       });
     } catch (err) {
@@ -129,7 +129,7 @@ const userController = {
         const PasswordValid = await bcrypt.compare(password, passwordHash);
         const user = result.rows[0];
 
-        // console.log(result);
+        // console.log(result.rows);
 
         if (PasswordValid) {
           const token = await generateToken({
@@ -159,22 +159,20 @@ const userController = {
       const recruiter_id = req.params.recruiter_id;
       //   console.log(req.file);
 
-      if (!req.file || !req.file.path) {
-        return res.status(401).json({
-          message: "You need to upload an image",
-        });
-      }
-      const recruiterImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "recruiter",
-      }); 
-
       const result = await getById(Number(recruiter_id));
       const recruiterData = result.rows[0];
+      let recruiterImage = recruiterData.image;
+      if (req.file) {
+        const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+          folder: "portofolio",
+        });
+        recruiterImage = uploadedImage.secure_url;
+      }
       const data = {
         nama: req.body.nama || recruiterData.nama,
         email: req.body.email || recruiterData.email,
         phone: req.body.phone || recruiterData.phone,
-        image: recruiterImage.secure_url,
+        image: recruiterImage,
         location: req.body.location || recruiterData.location,
         description: req.body.description || recruiterData.description,
         company: req.body.company || recruiterData.company,

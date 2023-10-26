@@ -26,9 +26,9 @@ const userController = {
       const {
         rows: [count],
       } = await countPortofolio();
-      const totalData = parseInt(count.count);
+      const totalData = parseInt(count.total);
 
-      const totalPage = Math.ceil(totalData / limit);
+      const totalPage = Math.ceil(totalData / data.limit);
       // console.log(limit);
       const pagination = {
         currentPage: data.page,
@@ -55,7 +55,7 @@ const userController = {
       const portofolio_id = req.params.portofolio_id;
       const result = await getPortofolioId(portofolio_id);
       res.json({
-        data: result.rows[0],
+        data: result.rows,
         message: "get data successfully",
       });
     } catch (err) {
@@ -122,30 +122,29 @@ const userController = {
   updatedPortofolio: async (req, res) => {
     try {
       const portofolio_id = req.params.portofolio_id;
-      //   console.log(req.file);
-      const portofolioImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "portofolio",
-      });
-
-      if (!portofolioImage) {
-        return res.status(401).json({
-          message: "u need upload image",
-        });
-      }
       const result = await getPortofolioId(Number(portofolio_id));
       const portofolioData = result.rows[0];
+
+      let portofolioImage = portofolioData.image;
+      if (req.file) {
+        const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+          folder: "portofolio",
+        });
+        portofolioImage = uploadedImage.secure_url;
+      }
+
       const data = {
         namaAplikasi: req.body.namaAplikasi || portofolioData.namaAplikasi,
         linkRepo: req.body.linkRepo || portofolioData.linkRepo,
         typePortofolio:
           req.body.typePortofolio || portofolioData.typePortofolio,
-        image: portofolioImage.secure_url,
+        image: portofolioImage,
       };
 
       await updatePortofolio(data, Number(portofolio_id));
 
       res.status(200).json({
-        message: "Update Portofolio Successfull",
+        message: "Update Portofolio Successful",
       });
     } catch (error) {
       res.status(400).json({

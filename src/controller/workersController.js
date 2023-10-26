@@ -4,6 +4,7 @@ const {
   getById,
   createWorkers,
   updateWorkers,
+  updateSkillWorkers,
   loginWorkers,
   deleteWorkers,
   findUserEmail,
@@ -21,7 +22,7 @@ const userController = {
       search: search || "",
       sortBy: sortBy || "workers_id",
       sort: sort || "ASC",
-      limit: limit || 10,
+      limit: limit || 100,
       offset: (page - 1) * limit || 0,
     };
 
@@ -29,9 +30,8 @@ const userController = {
       const {
         rows: [count],
       } = await countWorkers();
-      const totalData = parseInt(count.count);
-
-      const totalPage = Math.ceil(totalData / limit);
+      const totalData = parseInt(count.total);
+      const totalPage = Math.ceil(totalData / data.limit);
       // console.log(limit);
       const pagination = {
         currentPage: data.page,
@@ -58,7 +58,7 @@ const userController = {
       const workers_id = req.params.workers_id;
       const result = await getById(workers_id);
       res.json({
-        data: result.rows[0],
+        data: result.rows,
         message: "get data successfully",
       });
     } catch (err) {
@@ -131,10 +131,10 @@ const userController = {
             data: user,
           });
         } else {
-          res.status(400).json({ message: "Invalid email or password " });
+          res.status(400).json({ message: "Invalid password " });
         }
       } else {
-        res.status(400).json({ message: "Invalid password " });
+        res.status(400).json({ message: "Invalid Email " });
       }
     } catch (error) {
       res
@@ -146,22 +146,19 @@ const userController = {
   updateWorker: async (req, res) => {
     try {
       const workers_id = req.params.workers_id;
-      if (!req.file || !req.file.path) {
-        return res.status(401).json({
-          message: "You need to upload an image",
-        });
-      }
-      const workersImage = await cloudinary.uploader.upload(req.file.path, {
-        folder: "users",
-      });
 
       const result = await getById(Number(workers_id));
       const worker = result.rows[0];
+      let workersImage = worker.image;
+      if (req.file && req.file.path) {
+        const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+          folder: "portofolio",
+        });
+        workersImage = uploadedImage.secure_url;
+      }
       const data = {
         nama: req.body.nama || worker.nama,
-        email: req.body.email || worker.email,
-        phone: req.body.phone || worker.phone,
-        image: workersImage.secure_url,
+        image: workersImage,
         profesi: req.body.profesi || worker.profesi,
         location: req.body.location || worker.location,
         description: req.body.description || worker.description,
@@ -180,6 +177,25 @@ const userController = {
       res.status(400).json({
         message: "Update Error",
         error: error.message,
+      });
+    }
+  },
+
+  updateSkillsWorkers: async (req, res) => {
+    // console.log(req.params);
+    try {
+      const workers_id = req.params.workers_id;
+      const { skills } = req.body;
+
+      await updateSkillWorkers(skills, Number(workers_id));
+
+      res.status(200).json({
+        message: "Update skills Successfull",
+      });
+    } catch (err) {
+      res.status(400).json({
+        message: "Update Skills Error",
+        err: err.message,
       });
     }
   },

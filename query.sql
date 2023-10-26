@@ -71,6 +71,13 @@ CREATE TABLE hire (
   recruiter_id INT
 );
 
+ALTER TABLE workers
+ADD COLUMN skills VARCHAR(255) NULL;
+
+ALTER TABLE workers
+DROP COLUMN skills;
+
+
 DROP TABLE recruiters
 
 DROP TABLE portofolio
@@ -78,3 +85,5 @@ DROP TABLE portofolio
 DROP TABLE experience
 
 DROP TABLE hire
+
+DROP TABLE skills
