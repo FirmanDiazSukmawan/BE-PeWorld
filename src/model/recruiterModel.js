@@ -63,17 +63,17 @@ const loginRecruiter = (email) => {
 const updateRecruiter = (data, recruiter_id) => {
   const {
     nama,
-    email,
-    phone,
     image,
     bidang,
     location,
     description,
+    perusahaan,
+    jabatan,
     instagram,
     linkedin,
   } = data;
   return db.query(
-    `UPDATE recruiter SET nama='${nama}',email='${email}',phone='${phone}',image='${image}',bidang='${bidang}',location='${location}',description='${description}',instagram='${instagram}',linkedin='${linkedin}' WHERE recruiter.recruiter_id = ${recruiter_id}`
+    `UPDATE recruiter SET nama='${nama}',image='${image}',bidang='${bidang}',location='${location}',description='${description}',perusahaan='${perusahaan}',jabatan='${jabatan}',instagram='${instagram}',linkedin='${linkedin}' WHERE recruiter.recruiter_id = ${recruiter_id}`
   );
 };
 

@@ -105,7 +105,7 @@ const userController = {
     try {
       const {
         objective,
-        fullName,
+        fullname,
         email,
         handphone,
         description,
@@ -115,7 +115,7 @@ const userController = {
 
       const hire = {
         objective,
-        fullName,
+        fullname,
         email,
         handphone,
         description,

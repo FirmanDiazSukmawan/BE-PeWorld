@@ -17,8 +17,8 @@ const {
 
 router.get("/", LoginAuth, getHire);
 router.get("/:hire_id", getHireById);
-router.get("/users/:workers_id", getHireByWorkersId);
-router.get("/users/:recruiter_id", getHireByRecruiterId);
+router.get("/workers/:workers_id", getHireByWorkersId);
+router.get("/recruiter/:recruiter_id", getHireByRecruiterId);
 router.post("/", createdHire);
 router.put("/:hire_id", updatedHire);
 router.delete("/:hire_id", deletedHire);

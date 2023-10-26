@@ -170,12 +170,12 @@ const userController = {
       }
       const data = {
         nama: req.body.nama || recruiterData.nama,
-        email: req.body.email || recruiterData.email,
-        phone: req.body.phone || recruiterData.phone,
         image: recruiterImage,
+        bidang: req.body.bidang || recruiterData.bidang,
         location: req.body.location || recruiterData.location,
         description: req.body.description || recruiterData.description,
-        company: req.body.company || recruiterData.company,
+        perusahaan: req.body.perusahaan || recruiterData.perusahaan,
+        jabatan: req.body.jabatan || recruiterData.jabatan,
         instagram: req.body.instagram || recruiterData.instagram,
         linkedin: req.body.linkedin || recruiterData.linkedin,
       };

@@ -32,7 +32,7 @@ const getHireRecruiterId = (recruiter_id) => {
 const createHire = (data) => {
   const {
     objective,
-    fullName,
+    fullname,
     email,
     handphone,
     description,
@@ -41,7 +41,7 @@ const createHire = (data) => {
   } = data;
   return new Promise((resolve, reject) =>
     db.query(
-      `INSERT INTO hire(objective,fullName,email,handphone,description, workers_id,recruiter_id) VALUES('${objective}','${fullName}','${email}','${handphone}','${description}',${workers_id},${recruiter_id})`,
+      `INSERT INTO hire(objective,fullname,email,handphone,description, workers_id,recruiter_id) VALUES('${objective}','${fullname}','${email}','${handphone}','${description}',${workers_id},${recruiter_id})`,
       (err, res) => {
         if (!err) {
           resolve(res);
