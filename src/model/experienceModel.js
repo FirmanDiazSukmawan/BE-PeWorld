@@ -26,10 +26,10 @@ const getExperienceWorkersId = (workers_id) => {
 };
 
 const createExperience = (data) => {
-  const { profesi, company, dateIn, dateOut, description, workers_id } = data;
+  const { profesi, company, datein, dateout, description, workers_id } = data;
   return new Promise((resolve, reject) =>
     db.query(
-      `INSERT INTO experience(profesi, company,dateIn,dateOut,description,workers_id) VALUES('${profesi}','${company}','${dateIn}','${dateOut}','${description}',${workers_id})`,
+      `INSERT INTO experience(profesi, company,datein,dateout,description,workers_id) VALUES('${profesi}','${company}','${datein}','${dateout}','${description}',${workers_id})`,
       (err, res) => {
         if (!err) {
           resolve(res);
@@ -42,10 +42,10 @@ const createExperience = (data) => {
 };
 
 const updateExperience = (data, experience_id) => {
-  const { profesi, company, dateIn, dateOut, description, image } = data;
+  const { profesi, company, datein, dateout, description, image } = data;
 
   return db.query(
-    `UPDATE experience SET profesi='${profesi}',company='${company}',dateIn='${dateIn}',dateOut='${dateOut}',description='${description}',image='${image}' WHERE experience.experience_id = ${experience_id}`
+    `UPDATE experience SET profesi='${profesi}',company='${company}',datein='${datein}',dateout='${dateout}',description='${description}',image='${image}' WHERE experience.experience_id = ${experience_id}`
   );
 };
 

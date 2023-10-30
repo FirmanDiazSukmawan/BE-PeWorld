@@ -18,7 +18,7 @@ const upload = require("../middleware/multer");
 router.get("/", LoginAuth, getExperience);
 router.get("/:experience_id", getExperienceById);
 router.get("/users/:workers_id", getExperienceByWorkersId);
-router.post("/", upload, createdExperience);
+router.post("/", createdExperience);
 router.put("/:experience_id", upload, updatedExperience);
 router.delete("/:experience_id", deletedExperience);
 

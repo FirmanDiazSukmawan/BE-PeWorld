@@ -15,7 +15,7 @@ const userController = {
     let { searchBy, search, sortBy, sort, limit, offset, page } = req.query;
     let data = {
       page: page || 1,
-      searchBy: searchBy || "hire",
+      searchBy: searchBy || "objective",
       search: search || "",
       sortBy: sortBy || "hire_id",
       sort: sort || "ASC",

@@ -68,7 +68,6 @@ const loginWorkers = (email) => {
 const updateWorkers = (data, workers_id) => {
   const {
     nama,
-
     image,
     profesi,
     location,

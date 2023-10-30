@@ -15,6 +15,7 @@ CREATE TABLE workers (
   github TEXT NULL,
   gitlab TEXT NULL,
   role INT
+  skills VARCHAR(255) NULL;
 );
 
 CREATE TABLE recruiter (
@@ -78,7 +79,10 @@ ALTER TABLE workers
 DROP COLUMN skills;
 
 
-DROP TABLE recruiters
+DROP TABLE workers
+
+
+DROP TABLE recruiter
 
 DROP TABLE portofolio
 

@@ -85,25 +85,26 @@ const userController = {
 
   createdExperience: async (req, res) => {
     try {
-      const { profesi, company, dateIn, dateOut, description, workers_id } =
+      const { profesi, company, datein, dateout, description, workers_id } =
         req.body;
 
       const experience = {
         profesi,
         company,
-        dateIn,
-        dateOut,
+        datein,
+        dateout,
         description,
         workers_id,
       };
-      //   console.log(experience);
+      console.log(experience);
       const experienceData = await createExperience(experience);
-      // console.log("Experience data:", ExperienceData);
+      // console.log(experienceData);
       res.status(200).json({
         message: "Experience has been created successfully",
         data: experienceData,
       });
     } catch (err) {
+      console.error(err);
       res.status(400).json({
         message: "Error creating Experience",
         err: err.message,
@@ -128,8 +129,8 @@ const userController = {
       const data = {
         profesi: req.body.profesi || experienceData.profesi,
         company: req.body.company || experienceData.company,
-        dateIn: req.body.dateIn || experienceData.dateIn,
-        dateOut: req.body.dateOut || experienceData.dateOut,
+        datein: req.body.datein || experienceData.datein,
+        dateout: req.body.dateout || experienceData.dateout,
         description: req.body.description || experienceData.description,
         image: experienceImage,
       };
