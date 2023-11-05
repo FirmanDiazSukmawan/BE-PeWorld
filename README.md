@@ -28,7 +28,7 @@
 
 # About The Project
 
-Recipe Cooking adalah aplikasi untuk menjelajahi dunia recipe dan juga untuk mencari, dan berbagi banyak resep baru setiap hari, Cari berdasarkan nama resep, Bagikan resep serta bantu orang lain untuk membuat resep sehari-hari yang lezat dan mudah.Berikan like pada recipe yang anda sukai dan save untuk recipe yang ingin anda coba buat di rumah dan juga comment berikan feedback pada pembuat resep
+"PeWorld" is a website for job seekers and also for companies in need of their employees on PeWorld. Workers can showcase their work experience and project portfolios they have worked on, while recruiters can search for workers according to the candidates needed by the company.
 
 ## Built With
 

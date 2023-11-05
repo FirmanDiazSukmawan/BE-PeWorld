@@ -1,4 +1,5 @@
--- Active: 1696510194872@@localhost@5432@peworld
+-- Active: 1692600013165@@localhost@5432@PeWorld
+
 
 CREATE TABLE workers (
   workers_id SERIAL PRIMARY KEY,
@@ -14,8 +15,8 @@ CREATE TABLE workers (
   instagram TEXT NULL,
   github TEXT NULL,
   gitlab TEXT NULL,
-  role INT
-  skills VARCHAR(255) NULL;
+  role INT,
+  skills VARCHAR(255) NULL
 );
 
 CREATE TABLE recruiter (
