@@ -73,7 +73,29 @@ const updateRecruiter = (data, recruiter_id) => {
     linkedin,
   } = data;
   return db.query(
-    `UPDATE recruiter SET nama='${nama}',image='${image}',bidang='${bidang}',location='${location}',description='${description}',perusahaan='${perusahaan}',jabatan='${jabatan}',instagram='${instagram}',linkedin='${linkedin}' WHERE recruiter.recruiter_id = ${recruiter_id}`
+    `UPDATE recruiter SET 
+     nama = $1, 
+     image = $2, 
+     bidang = $3, 
+     location = $4, 
+     description = $5, 
+     perusahaan = $6, 
+     jabatan = $7, 
+     instagram = $8, 
+     linkedin = $9 
+     WHERE recruiter_id = $10`,
+    [
+      nama,
+      image,
+      bidang,
+      location,
+      description,
+      perusahaan,
+      jabatan,
+      instagram,
+      linkedin,
+      recruiter_id,
+    ]
   );
 };
 
