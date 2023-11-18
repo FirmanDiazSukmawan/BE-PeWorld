@@ -7,7 +7,7 @@
   </div>
   <h3 align="center">PeWorld</h3>
   <p align="center">
-    <a href="https://github.com/xTats/BE-PeWorld"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/FirmanDiazSukmawan/BE-PeWorld"><strong>Explore the docs »</strong></a>
     <br />
   <a href="https://peworld-fawn.vercel.app/">View Demo</a>
     ·
@@ -92,9 +92,9 @@ API endpoint list are also available as published postman documentation
 
 ## Related Project
 
-:rocket: [`Backend-PeWorld`](https://github.com/xTats/BE-PeWorld)
+:rocket: [`Backend-PeWorld`](https://github.com/FirmanDiazSukmawan/BE-PeWorld)
 
-:rocket: [`FE-PeWorld`](https://github.com/xTats/FE-PeWorld_Next)
+:rocket: [`FE-PeWorld`](https://github.com/FirmanDiazSukmawan/FE-PeWorld_Next)
 
 :rocket: [`Demo PeWorld Web`](https://peworld-fawn.vercel.app/)
 
